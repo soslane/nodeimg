@@ -206,6 +206,51 @@ async function copyText(text, message = '已复制') {
   }
 }
 
+async function convertToWebpIfNeeded(file) {
+  if (!state.settings.compressToWebp) return file;
+  if (file.type === 'image/gif' || file.type === 'image/svg+xml') return file;
+  if (file.type === 'image/webp') return file;
+
+  const quality = Math.min(1, Math.max(0.1, (Number(state.settings.webpQuality) || 90) / 100));
+
+  try {
+    let bitmap = null;
+    if (typeof createImageBitmap === 'function') {
+      bitmap = await createImageBitmap(file);
+    }
+
+    const img = bitmap
+      ? null
+      : await new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = () => resolve(image);
+          image.onerror = reject;
+          image.src = URL.createObjectURL(file);
+        });
+
+    const width = bitmap ? bitmap.width : img.naturalWidth;
+    const height = bitmap ? bitmap.height : img.naturalHeight;
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(bitmap || img, 0, 0);
+
+    if (bitmap && typeof bitmap.close === 'function') bitmap.close();
+    if (img) URL.revokeObjectURL(img.src);
+
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error('WebP encode failed'))), 'image/webp', quality);
+    });
+
+    const baseName = file.name.replace(/\.[^.]+$/, '');
+    return new File([blob], `${baseName}.webp`, { type: 'image/webp' });
+  } catch (err) {
+    console.error('WebP conversion failed, fallback to original file', err);
+    return file;
+  }
+}
+
 function toggleAuthModal(show) {
   els.authModal.style.display = show ? 'flex' : 'none';
 }
@@ -434,20 +479,17 @@ function renderResults() {
     });
     body.appendChild(formatRow);
 
-    const openBtn = document.createElement('button');
-    openBtn.className = 'tailwind-btn simple-view-btn';
-    openBtn.textContent = '查看';
-    openBtn.addEventListener('click', () => openImageModal(res.url));
-    body.appendChild(openBtn);
-
     card.appendChild(body);
     els.resultContainer.appendChild(card);
   });
 }
 
 async function uploadFile(file) {
+  const sourceName = file.name;
+  const uploadFileObj = await convertToWebpIfNeeded(file);
+
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append('image', uploadFileObj);
   formData.append('compressToWebp', state.settings.compressToWebp);
   formData.append('webpQuality', state.settings.webpQuality);
   formData.append('autoWatermark', state.settings.autoWatermark);
@@ -473,7 +515,7 @@ async function uploadFile(file) {
     if (!res.ok) throw new Error(data?.message || '上传失败');
     const result = {
       ...data,
-      filename: file.name
+      filename: sourceName
     };
     state.results.unshift(result);
     renderResults();
