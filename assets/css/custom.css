@@ -4,6 +4,10 @@ body, html {
   background-size: 32px 32px;
 }
 
+.container {
+  max-width: 1400px;
+}
+
 .global-footer {
   text-align: center;
   margin: 18px 0 28px;
@@ -123,7 +127,8 @@ body, html {
   }
 }
 
-.history-card {
+.history-card,
+.image-card {
   background: var(--color-card-bg);
   border-radius: 12px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.08);
@@ -137,31 +142,61 @@ body, html {
   height: auto;
   cursor: default;
 }
-.history-card .thumb-wrap {
+.history-card .thumb-wrap,
+.image-card .image-container {
   flex: 0 0 auto;
   aspect-ratio: 16 / 9;
   height: auto;
   min-height: 0;
 }
-.history-card img {
+.history-card img,
+.image-card img {
   width: 100%;
   height: 100%;
   max-width: none;
   max-height: none;
   object-fit: cover;
 }
-.history-card .body {
+.history-card .body,
+.image-card .image-info {
   flex: 1;
   min-height: 0;
-  overflow: hidden;
-  padding: 12px 12px 14px;
+  display: grid;
+  grid-template-rows: auto auto 36px 34px;
   gap: 8px;
+  padding: 12px 12px 14px;
+  overflow: hidden;
 }
-.history-card .link-input input {
+.history-card .title-row,
+.image-card .image-info h5,
+.image-card .image-info p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-card .title-row .id {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-card .link-input,
+.image-card .url-container {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+}
+.history-card .link-input input,
+.image-card .url-input {
   width: 100%;
   min-width: 0;
 }
-.history-card .link-input button {
+.history-card .format-row,
+.image-card .image-actions {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+.history-card .link-input button,
+.image-card .url-container button {
   display: none;
 }
 .history-card .body {
