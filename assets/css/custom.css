@@ -61,13 +61,13 @@ body, html {
 .result-container {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 12px;
   justify-items: stretch;
   align-items: start;
   padding: 12px 0 4px;
   position: relative;
-  margin: 18px auto 0;
+  margin: 28px auto 0;
   max-width: 1260px;
   cursor: default;
 }
@@ -100,7 +100,7 @@ body, html {
 
 .images-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 16px;
   padding: 10px 4px 30px;
   width: 100%;
@@ -133,13 +133,13 @@ body, html {
   flex-direction: column;
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 340px;
   cursor: default;
 }
 .history-card .thumb-wrap {
-  flex: 0 0 160px;
-  height: 160px;
-  min-height: 160px;
+  flex: 0 0 170px;
+  height: 170px;
+  min-height: 170px;
 }
 .history-card img {
   width: 100%;
@@ -156,6 +156,9 @@ body, html {
 .history-card .link-input input {
   width: 100%;
   min-width: 0;
+}
+.history-card .link-input button {
+  display: none;
 }
 .history-card .body {
   display: flex;
