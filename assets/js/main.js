@@ -230,8 +230,9 @@ window.fetch = function() {
   let [resource, config] = arguments;
   if (resource && resource.toString().startsWith('/api/')) {
     config = config || {};
-    config.headers = config.headers || {};
-    config.headers['X-API-Key'] = getApiKey();
+    const headers = new Headers(config.headers || {});
+    headers.set('X-API-Key', getApiKey());
+    config.headers = headers;
   }
   return originalFetch(resource, config);
 };
