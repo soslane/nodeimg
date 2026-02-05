@@ -21,10 +21,10 @@ body, html {
 
 .upload-content { cursor: pointer; }
 .upload-area {
-  padding-bottom: 20px;
+  padding-bottom: 16px;
 }
 .upload-area + .result-container {
-  margin-top: 36px;
+  margin-top: 18px;
 }
 
 .api-view,
@@ -67,7 +67,7 @@ body, html {
   align-items: start;
   padding: 12px 0 4px;
   position: relative;
-  margin: 36px auto 0;
+  margin: 18px auto 0;
   max-width: 1260px;
   cursor: default;
 }
@@ -133,22 +133,29 @@ body, html {
   flex-direction: column;
   position: relative;
   width: 100%;
-  min-height: 380px;
-  height: 380px;
+  min-height: 320px;
+  height: 320px;
   cursor: default;
+}
+.history-card .thumb-wrap {
+  min-height: 150px;
+  height: 150px;
+}
+.history-card img {
+  max-height: 150px;
 }
 .history-card .body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 8px;
-  padding-bottom: 8px;
+  gap: 6px;
+  padding-bottom: 6px;
 }
 .history-card .format-row {
   margin-top: auto;
 }
 .history-card .link-input {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .history-card .thumb-wrap {
