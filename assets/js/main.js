@@ -459,11 +459,7 @@ function renderResults() {
     const linkInput = document.createElement('input');
     linkInput.value = formatValue(res, currentFormat);
     linkInput.readOnly = true;
-    const copyBtn = document.createElement('button');
-    copyBtn.textContent = '复制';
-    copyBtn.addEventListener('click', () => copyText(linkInput.value, '链接已复制'));
     linkInputWrap.appendChild(linkInput);
-    linkInputWrap.appendChild(copyBtn);
     body.appendChild(linkInputWrap);
 
     const formats = [
@@ -612,11 +608,7 @@ function renderHistory() {
     const linkInput = document.createElement('input');
     linkInput.value = formatValue(img, currentFormat);
     linkInput.readOnly = true;
-    const copyBtn = document.createElement('button');
-    copyBtn.textContent = '复制';
-    copyBtn.addEventListener('click', () => copyText(linkInput.value, '链接已复制'));
     linkInputWrap.appendChild(linkInput);
-    linkInputWrap.appendChild(copyBtn);
     body.appendChild(linkInputWrap);
 
     const formats = [
