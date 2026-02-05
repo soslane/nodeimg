@@ -29,6 +29,9 @@ export async function onRequestPost(context) {
     url.searchParams.set('uploadChannel', 'cfr2');
 
     const proxiedHeaders = new Headers(request.headers);
+    // Remove original multipart boundary so the new FormData can set it correctly.
+    proxiedHeaders.delete('content-type');
+    proxiedHeaders.delete('content-length');
     proxiedHeaders.set('Authorization', `Bearer ${token}`);
 
     const proxiedRequest = new Request(url.toString(), {
